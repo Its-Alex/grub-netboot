@@ -4,7 +4,7 @@ Vagrant.configure("2") do |config|
 
         pxe_server.vm.network "private_network", ip: "192.168.0.254", virtualbox__intnet: "pxe_lab_network"
         pxe_server.vm.synced_folder '.', '/vagrant', disabled: true
-        pxe_server.vm.synced_folder 'tftp/', '/srv/', create: true
+        pxe_server.vm.synced_folder 'tftp/', '/srv/tftp', create: true
 
         pxe_server.vm.provision "shell", path: "provisions/install-pxe-server.sh", env: {}
     end
