@@ -2,14 +2,18 @@
 
 set -ev
 
-sudo apt update -y && sudo apt upgrade -y && sudo apt install --no-install-recommends -y dnsmasq
+sudo apt update -y && sudo apt upgrade -y
 
 # Generate grub netboot file
+sudo update-grub
 sudo grub-mknetdir --locales= --fonts= --net-directory=/srv/tftp
 
 # Disable systemd-resolved
 echo "DNSStubListener=no" | sudo tee -a /etc/systemd/resolved.conf
 sudo systemctl restart systemd-resolved
+
+# Install and setup dnsmasq
+sudo apt install --no-install-recommends -y dnsmasq
 
 sudo tee -a /etc/dnsmasq.d/pxe.conf << ENDdm
 interface=eth1
@@ -28,10 +32,12 @@ dhcp-range=192.168.0.10,192.168.0.20,255.255.255.0,12h
 enable-tftp
 dhcp-boot=/boot/grub/i386-pc/core.0
 tftp-root=/srv/tftp
-tftp-secure
 ENDdm
 
-sudo tee -a /boot/grub/grub.cfg << ENDdm
+mkdir -p /srv/tftp/boot/
+mkdir -p /srv/tftp/boot/grub/
+
+sudo tee -a /srv/tftp/boot/grub/grub.cfg << ENDdm
 insmod part_msdos
 insmod part_gpt
 insmod lvm
@@ -191,12 +197,6 @@ submenu 'Ubuntu installers' {
 			initrd \$rootdir/initrd.gz
 		}
 	done
-}
-
-menuentry 'SliTaz 4.0 - i386' {
-	set rootdir="/slitaz"
-	linux  \$rootdir/bzImage lang=fr_FR kmap=fr-latin1 rw root=/dev/null autologin nomodeset
-	initrd \$rootdir/rootfs4.gz \$rootdir/rootfs3.gz \$rootdir/rootfs2.gz \$rootdir/rootfs1.gz
 }
 
 submenu 'Tools' {
