@@ -2,3 +2,6 @@
 
 # Vagrant
 .vagrant
+
+# Synced folders
+tftp/
