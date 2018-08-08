@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
         pxe_server.vm.synced_folder '.', '/vagrant', disabled: true
         pxe_server.vm.synced_folder 'tftp/', '/srv/tftp', create: true
 
-        pxe_server.vm.provision "shell", path: "provisions/install-pxe-server.sh", env: {}
+        pxe_server.vm.provision "shell", path: "install-pxe-server.sh", env: {}
     end
     config.vm.define :blank_server, autostart: false do |blank_server|
         ip = "192.168.0.11"

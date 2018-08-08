@@ -1,27 +1,42 @@
-# grub-netboot-build
+# Grub2 netboot
 
-🛠️ Build grub netboot binarie
-
-Build and launch a PXE stack with grub
+Start a server with grub 
 
 ## Requirements
 
 * Virtualbox
 * Vagrant
-  
+
+Live image
+
+* squashfs
+* initrd
+* vmlinuz
+
+Without live image your second virtual machine will not boot
+
 ## How to
+
+PXE server contain a dhcp/tftp/http server it is provisionned by [`install-pxe-server.sh`](/install-pxe-server.sh)
 
 ```
 $ vagrant up pxe_server
 ```
 
-Server with pxe will be provisionned and ready to accept another server to connect in pxe
+Then create a folder `tftp/rescue/` in project and put live image file inside it
+(with exact name as above)
 
 ```
 $ vagrant up blank_server
 ```
 
-This server will boot on grub console
+Your server will now boot on live image with grub2
+
+## Usefull info
+
+Grub config is put inside `/srv/tftp/boot/grub/grub.cfg`
+
+`tftp` folder is sync with folder shared by pxe_server with tftp and http
 
 ## License
 

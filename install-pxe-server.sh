@@ -49,7 +49,7 @@ insmod regexp
 insmod biosdisk
 set pager=1
 
-set rootdir=rescue/ubuntu-18.04
+set rootdir=rescue
 linux  \$rootdir/vmlinuz initrd=\$rootdir/initrd.img netboot=nonempty boot=live nouser fetch=http://192.168.0.254/\$rootdir/filesystem.squashfs
 initrd \$rootdir/initrd.img
 boot
