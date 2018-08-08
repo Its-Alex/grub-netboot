@@ -1,6 +1,6 @@
 # Grub2 netboot
 
-Start a server with grub 
+Start a server on network with grub 
 
 ## Requirements
 
@@ -14,10 +14,11 @@ Live image
 * vmlinuz
 
 Without live image your second virtual machine will not boot
+you can create these files from this [repo](https://github.com/Its-Alex/bionic-squashfs)
 
 ## How to
 
-PXE server contain a dhcp/tftp/http server it is provisionned by [`install-pxe-server.sh`](/install-pxe-server.sh)
+PXE server contain a `dhcp/tftp/http` server it is provisionned by [install-pxe-server.sh](/install-pxe-server.sh)
 
 ```
 $ vagrant up pxe_server
@@ -32,11 +33,11 @@ $ vagrant up blank_server
 
 Your server will now boot on live image with grub2
 
-## Usefull info
+## Tips
 
-Grub config is put inside `/srv/tftp/boot/grub/grub.cfg`
+`tftp` folder is a shared folder from pxe_server, this folder is exposed with tftp and http on pxe_server
 
-`tftp` folder is sync with folder shared by pxe_server with tftp and http
+Grub config is put inside `/srv/tftp/boot/grub/grub.cfg` inside pxe_server
 
 ## License
 
